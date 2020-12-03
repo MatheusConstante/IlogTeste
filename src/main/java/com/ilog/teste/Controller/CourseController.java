@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import com.ilog.teste.Model.Employee;
-import com.ilog.teste.Repository.EmployeeRepository;
+import com.ilog.teste.Model.Course;
+import com.ilog.teste.Repository.CourseRepository;
 
 @RestController
 @RequestMapping("/api")
-public class EmployeeController {
+public class CourseController {
     @Autowired
-    EmployeeRepository employeeRepository;
+    CourseRepository courseRepository;
 
-    @GetMapping("/employees")
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    @GetMapping("/courses")
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 
-    @PostMapping("/employees")
-    public Employee createNote(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+    @PostMapping("/courses")
+    public Course createNote(@RequestBody Course course) {
+        return courseRepository.save(course);
     }
 }
