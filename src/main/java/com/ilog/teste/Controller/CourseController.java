@@ -24,7 +24,7 @@ public class CourseController {
     }
 
     @PostMapping("/courses")
-    public Course createNote(@RequestBody Course course) {
+    public Course createCourse(@RequestBody Course course) {
         return courseRepository.save(course);
     }
 }
