@@ -1,6 +1,11 @@
 package com.ilog.teste.Model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,12 +18,20 @@ public class Employee {
 
     private String name;
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<CourseMembership> courseMemberships;
+
     public String getName() {
         return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
 }

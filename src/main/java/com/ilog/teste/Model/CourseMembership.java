@@ -12,24 +12,32 @@ public class CourseMembership {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long employeeId;
+    @ManyToOne()
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
-    private Long courseId;
+    @ManyToOne()
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    public Long getEmployeeId() {
-        return this.employeeId;
+    public Employee getEmployee() {
+        return this.employee;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(Employee employee) {
+        this.employee = employee;
     }
 
-    public Long getCourseId() {
-        return this.courseId;
+    public Course getCourse() {
+        return this.course;
     }
 
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public void setCourseId(Course course) {
+        this.course = course;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
 }
