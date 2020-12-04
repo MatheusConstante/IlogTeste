@@ -64,6 +64,15 @@ public class CourseController {
         if (course.getTitle() != null) {
             tempCourse.setTitle(course.getTitle());
         }
+        if (course.getDescription() != null) {
+            tempCourse.setDescription(course.getDescription());
+        }
+        if (course.getCourseLength() != null) {
+            tempCourse.setCourseLength(course.getCourseLength());
+        }
+        if (course.getCost() != null) {
+            tempCourse.setCost(course.getCost());
+        }
         courseRepository.save(tempCourse);
     }
 }

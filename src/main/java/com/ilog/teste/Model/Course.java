@@ -16,6 +16,12 @@ public class Course {
 
     private String title;
 
+    private String description;
+
+    private Double courseLength;
+
+    private Double cost;
+
     @OneToMany
     private List<CourseMembership> courseMemberships;
 
@@ -33,6 +39,30 @@ public class Course {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getCourseLength() {
+        return this.courseLength;
+    }
+
+    public void setCourseLength(Double courseLength) {
+        this.courseLength = courseLength;
+    }
+
+    public Double getCost() {
+        return this.cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
 }
