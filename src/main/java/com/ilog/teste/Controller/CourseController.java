@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ilog.teste.Model.Course;
+import com.ilog.teste.Model.Log;
 import com.ilog.teste.Repository.CourseRepository;
+import com.ilog.teste.Repository.LogRepository;
 
 @RestController
 @RequestMapping("/api")
 public class CourseController {
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    private LogRepository logRepository;
 
     @GetMapping("/courses")
     public List<Course> getAllCourses() {
@@ -35,18 +40,28 @@ public class CourseController {
 
     @PostMapping("/courses")
     public Course createCourse(@RequestBody Course course) {
+        Date now = new Date();
+        Log log = new Log("course", course.getTitle(), now.toString(), "created");
+        logRepository.save(log);
         return courseRepository.save(course);
     }
 
     @DeleteMapping("/courses")
     public void deleteCourse(@RequestBody Course course) {
+        Course tempCourse = getCourse(course.getId());
+        Date now = new Date();
+        Log log = new Log("course", tempCourse.getTitle(), now.toString(), "deleted");
+        logRepository.save(log);
         courseRepository.delete(course);
     }
 
     @PatchMapping("/courses/{id}")
     public void updateCourse(@PathVariable("id") long id, @RequestBody Course course) {
         Course tempCourse = getCourse(id);
-        if (course.getTitle() != null){
+        Date now = new Date();
+        Log log = new Log("course", tempCourse.getTitle(), now.toString(), "updated");
+        logRepository.save(log);
+        if (course.getTitle() != null) {
             tempCourse.setTitle(course.getTitle());
         }
         courseRepository.save(tempCourse);
