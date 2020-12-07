@@ -98,7 +98,7 @@ main.config(function ($stateProvider) {
                 }
             }
         },
-        
+
         {
             name: 'logs',
             url: '/logs',
@@ -119,7 +119,11 @@ main.config(function ($stateProvider) {
 
 //##COMPONENTS##
 main.component('index', {
-    template: '<h3>Bem vindo ao sistema de administração de cursos!</h3>'
+    template: '<h3>Bem vindo ao sistema de administração de cursos!</h3>' +
+        '<a href="http://localhost:8080/api/log/download" target="_blank">Baixar Logs</a> <br>' +
+        '<a href="http://localhost:8080/api/courses/download" target="_blank">Baixar relação de cursos</a> <br>' +
+        '<a href="http://localhost:8080/api/employees/download" target="_blank">Baixar relação de funcionários</a> <br>' +
+        '<a href="http://localhost:8080/api/memberships/download" target="_blank">Baixar relação de matrículas</a> <br>'
 });
 
 main.component('courses', {
@@ -179,7 +183,7 @@ main.component('course', {
 
 main.component('membershipsUsers', {
     bindings: { membershipsUsers: '<' },
-    template: '<h3>Usuários neste curso:</h3>' +
+    template: '<h3>{{$ctrl.membershipsUsers.memberships.length}} Usuários neste curso:</h3>' +
         '<ul>' +
         '  <li ng-repeat="membership in $ctrl.membershipsUsers.memberships">' +
         '    <a ui-sref="user({ userId: {{membership.employee.id}} })">' +
@@ -288,6 +292,8 @@ main.component('logs', {
     bindings: { logs: '<' },
 
     template: '<h3>logs:</h3>' +
+        '<p>Existem {{$ctrl.logs.length}} logs</p>' +
+        '<p ng-if="$ctrl.logs.length > 0">último log criado em: {{$ctrl.logs[$ctrl.logs.length-1].dateTime}}</p>' +
         '<ul>' +
         '  <li ng-repeat="log in $ctrl.logs">' +
         '      <p>Tipo: {{log.type}} ' +
