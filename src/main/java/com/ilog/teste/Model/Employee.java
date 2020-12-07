@@ -61,9 +61,11 @@ public class Employee {
     }
 
     public void setAdmissionDate(String admissionDate) throws ParseException {
-        DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date = new Date(fmt.parse(admissionDate).getTime());
-        this.admissionDate = date;
+        if (admissionDate != null) {
+            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date(fmt.parse(admissionDate).getTime());
+            this.admissionDate = date;
+        }
     }
 
     public void setAdmissionDate(Date admissionDate) throws ParseException {
@@ -72,6 +74,10 @@ public class Employee {
 
     public Long getId() {
         return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

@@ -6,13 +6,17 @@
     <title>Administrar cursos</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!--<script src="./angular.min.js"></script>-->
-    <script src="./methods.js"></script>
+    <script src="./angular.min.js"></script>
+    <script src="./angularController.js"></script>
+    <script src="//unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
 </head>
 
-<body>
-
-
+<body ng-app="main" ng-controller="controller">
+    <a ui-sref="index">Início</a>
+    <a ui-sref="courses">Cursos</a>
+    <a ui-sref="users">Funcionários</a>
+    <a ui-sref="logs">Logs</a>
+    <ui-view></ui-view>
 </body>
 
 </html>

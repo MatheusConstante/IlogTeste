@@ -2,6 +2,7 @@ package com.ilog.teste.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,16 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.ilog.teste.Model.Employee;
 import com.ilog.teste.Model.Log;
+import com.ilog.teste.Repository.CourseMembershipRepository;
 import com.ilog.teste.Repository.EmployeeRepository;
 import com.ilog.teste.Repository.LogRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    CourseMembershipRepository courseMembershipRepository;
     @Autowired
     private LogRepository logRepository;
 
@@ -46,8 +53,10 @@ public class EmployeeController {
         return employeeRepository.save(employee);
     }
 
+    @Transactional
     @DeleteMapping("/employees")
     public void deleteCourse(@RequestBody Employee employee) {
+        courseMembershipRepository.deleteByEmployee(employee);
         Employee tempEmployee = getEmployee(employee.getId());
         Date now = new Date();
         Log log = new Log("employee", tempEmployee.getName(), now.toString(), "deleted");
@@ -56,7 +65,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/employees/{id}")
-    public void updateEmployees(@PathVariable("id") long id, @RequestBody Employee employee) {
+    public Employee updateEmployees(@PathVariable("id") long id, @RequestBody Employee employee) {
         Employee tempEmployee = getEmployee(id);
         if (employee.getName() != null) {
             tempEmployee.setName(employee.getName());
@@ -78,6 +87,6 @@ public class EmployeeController {
         Date now = new Date();
         Log log = new Log("employee", employee.getName(), now.toString(), "updated");
         logRepository.save(log);
-        employeeRepository.save(tempEmployee);
+        return employeeRepository.save(tempEmployee);
     }
 }

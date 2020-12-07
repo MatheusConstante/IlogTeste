@@ -2,6 +2,7 @@ package com.ilog.teste.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,16 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.ilog.teste.Model.Course;
 import com.ilog.teste.Model.Log;
+import com.ilog.teste.Repository.CourseMembershipRepository;
 import com.ilog.teste.Repository.CourseRepository;
 import com.ilog.teste.Repository.LogRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class CourseController {
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    CourseMembershipRepository courseMembershipRepository;
     @Autowired
     private LogRepository logRepository;
 
@@ -46,8 +53,10 @@ public class CourseController {
         return courseRepository.save(course);
     }
 
+    @Transactional
     @DeleteMapping("/courses")
     public void deleteCourse(@RequestBody Course course) {
+        courseMembershipRepository.deleteByCourse(course);
         Course tempCourse = getCourse(course.getId());
         Date now = new Date();
         Log log = new Log("course", tempCourse.getTitle(), now.toString(), "deleted");
